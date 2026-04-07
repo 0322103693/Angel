@@ -1,186 +1,389 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para mi amor 💖</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@600&display=swap');
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Para mi amor 💖</title>
 
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background: #ffc2d1; /* Rosa suave */
-            background: radial-gradient(circle, #ffe5ec 0%, #ffc2d1 100%);
-            font-family: 'Quicksand', sans-serif;
-        }
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap');
 
-        /* Nubes Estilizadas */
-        .cloud {
-            position: absolute;
-            background: #fff;
-            border-radius: 100px;
-            box-shadow: 0 8px 15px rgba(0,0,0,0.05);
-            z-index: 1;
-            opacity: 0.9;
-            animation: move linear infinite;
-        }
+    :root {
+      --bg1: #ffe5ec;
+      --bg2: #ffc2d1;
+      --text: #ff4d6d;
+      --heart: #ff758f;
+      --white: rgba(255, 255, 255, 0.95);
+      --message-max-width: min(80vw, 320px);
+    }
 
-        .cloud::after, .cloud::before {
-            content: '';
-            position: absolute;
-            background: #fff;
-            border-radius: 50%;
-        }
+    * {
+      box-sizing: border-box;
+    }
 
-        .cloud::after { width: 50%; height: 140%; top: -60%; left: 15%; }
-        .cloud::before { width: 40%; height: 110%; top: -40%; right: 15%; }
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Quicksand', sans-serif;
+    }
 
-        @keyframes move {
-            from { transform: translateX(-300px); }
-            to { transform: translateX(calc(100vw + 300px)); }
-        }
+    body {
+      background: radial-gradient(circle at top, var(--bg1) 0%, var(--bg2) 100%);
+    }
 
-        /* Nubes del fondo (piso) */
-        .bottom-cloud {
-            position: absolute;
-            bottom: -50px;
-            background: white;
-            border-radius: 50%;
-            filter: blur(10px);
-            z-index: 5;
-        }
+    #sky {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
 
-        /* Burbujas de Mensaje */
-        .message {
-            position: absolute;
-            background: white;
-            padding: 10px 22px;
-            border-radius: 30px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-            color: #ff4d6d;
-            font-size: clamp(12px, 4vw, 18px);
-            white-space: nowrap;
-            z-index: 10;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            pointer-events: none;
-            animation: popAndFade 6s ease-in-out forwards;
-        }
+    /* Nubes */
+    .cloud {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 999px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+      z-index: 1;
+      animation: moveCloud linear forwards;
+    }
 
-        @keyframes popAndFade {
-            0% { transform: scale(0) translateY(20px); opacity: 0; }
-            15% { transform: scale(1.1) translateY(0); opacity: 1; }
-            25% { transform: scale(1); }
-            80% { opacity: 1; transform: scale(1) translateY(-10px); }
-            100% { transform: scale(0.8) translateY(-40px); opacity: 0; }
-        }
+    .cloud::before,
+    .cloud::after {
+      content: "";
+      position: absolute;
+      background: inherit;
+      border-radius: 50%;
+    }
 
-        /* Corazones Flotantes */
-        .heart {
-            position: absolute;
-            color: #ff758f;
-            z-index: 2;
-            animation: floatHeart 5s linear forwards;
-            pointer-events: none;
-        }
+    .cloud::before {
+      width: 42%;
+      height: 120%;
+      left: 12%;
+      top: -55%;
+    }
 
-        @keyframes floatHeart {
-            0% { transform: translateY(110vh) scale(0.5); opacity: 0; }
-            20% { opacity: 0.7; }
-            100% { transform: translateY(-10vh) rotate(45deg) scale(1.5); opacity: 0; }
-        }
+    .cloud::after {
+      width: 34%;
+      height: 100%;
+      right: 14%;
+      top: -38%;
+    }
 
-    </style>
+    @keyframes moveCloud {
+      from { transform: translateX(-35vw); }
+      to { transform: translateX(135vw); }
+    }
+
+    /* Suelo */
+    .bottom-cloud {
+      position: absolute;
+      bottom: -8vh;
+      background: rgba(255,255,255,0.92);
+      border-radius: 50%;
+      filter: blur(10px);
+      z-index: 4;
+      pointer-events: none;
+    }
+
+    /* Mensajes */
+    .message {
+      position: absolute;
+      z-index: 10;
+      background: var(--white);
+      color: var(--text);
+      padding: 0.65rem 1rem;
+      border-radius: 24px;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+      font-size: clamp(11px, 2.2vw, 18px);
+      font-weight: 700;
+      line-height: 1.25;
+      min-width: 90px;
+      max-width: var(--message-max-width);
+      text-align: center;
+      white-space: normal;
+      word-break: break-word;
+      overflow-wrap: break-word;
+      pointer-events: none;
+      animation: popAndFade var(--duration, 6s) ease-in-out forwards;
+      opacity: 0;
+    }
+
+    @keyframes popAndFade {
+      0% {
+        transform: scale(0.6) translateY(20px);
+        opacity: 0;
+      }
+      15% {
+        transform: scale(1.05) translateY(0);
+        opacity: 1;
+      }
+      25% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      80% {
+        transform: scale(1) translateY(-8px);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(0.88) translateY(-30px);
+        opacity: 0;
+      }
+    }
+
+    /* Corazones */
+    .heart {
+      position: absolute;
+      z-index: 2;
+      color: var(--heart);
+      pointer-events: none;
+      animation: floatHeart linear forwards;
+      filter: drop-shadow(0 4px 8px rgba(255, 77, 109, 0.15));
+    }
+
+    @keyframes floatHeart {
+      0% {
+        transform: translateY(110vh) scale(0.5) rotate(0deg);
+        opacity: 0;
+      }
+      15% { opacity: 0.75; }
+      100% {
+        transform: translateY(-15vh) scale(1.35) rotate(18deg);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      :root {
+        --message-max-width: min(84vw, 260px);
+      }
+
+      .message {
+        border-radius: 20px;
+        padding: 0.6rem 0.9rem;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .message {
+        font-size: clamp(10px, 3.4vw, 14px);
+        border-radius: 18px;
+        padding: 0.55rem 0.8rem;
+      }
+    }
+  </style>
 </head>
 <body>
+  <div id="sky"></div>
 
-    <div id="sky"></div>
+  <script>
+    const sky = document.getElementById("sky");
 
-    <script>
-        const sky = document.getElementById('sky');
+    const phrases = [
+      "Te amo muchísimo 💖",
+      "Eres mi lugar feliz ✨",
+      "Mi niña hermosa 🌸",
+      "Siempre contigo 💍",
+      "Gracias por existir 💕",
+      "Eres mi mundo 🌎",
+      "Mi princesa hermosa 👑",
+      "Tu sonrisa me enamora 😍",
+      "Eres mi felicidad",
+      "Cada día te amo más",
+      "Mi corazón es tuyo ❤️",
+      "Contigo todo es bonito",
+      "Mi pedacito de cielo ☁️",
+      "Eres el amor de mi vida",
+      "Me haces muy feliz 😊",
+      "Te quiero infinito ♾️",
+      "No te cambio por nada",
+      "Besitos para ti 💋",
+      "Eres mi sol ☀️",
+      "Eres magia pura ✨",
+      "Tú y yo por siempre",
+      "Me encantas demasiado",
+      "Mi todo 💖",
+      "Mi amor bonito",
+      "Eres mi sueño hecho realidad",
+      "Mi niña preciosa",
+      "Te adoro con todo mi corazón",
+      "Eres lo mejor de mi vida",
+      "Me haces sonreír siempre",
+      "Mi persona favorita",
+      "Eres mi paz 🤍",
+      "Te amo hasta el infinito",
+      "Mi corazón late por ti",
+      "Eres mi casualidad favorita",
+      "Qué bonito es amarte",
+      "Siempre te escogería a ti",
+      "Eres mi más bonito destino",
+      "Mi amorcito lindo",
+      "Tú haces mi vida más bonita",
+      "Eres mi alegría de todos los días",
+      "Mi niña consentida 🧸",
+      "Eres un regalo en mi vida",
+      "Mi amor por ti no tiene fin",
+      "Te amo con toda mi alma",
+      "Eres mi felicidad diaria",
+      "Lo más bonito que tengo eres tú",
+      "Eres mi estrella favorita ⭐",
+      "Mi corazón sonríe por ti",
+      "A tu lado todo es mejor",
+      "Eres mi razón favorita"
+    ];
 
-        const phrases = [
-            "Te amo mi huestios❤️", "Eres mi vida ✨", "Mi niña hermosa 🌸", "Siempre juntos 💍", 
-            "Gracias por existir", "Eres mi mundo 🌎", "Mi niña consentida 🧸",
-            "Tu sonrisa me mata 😍", "I Love You ❤️", "Cada día te amo más",
-            "Eres mi lugar favorito", "Contigo para siempre", "Mi pedacito de cielo",
-            "Eres el amor de mi vida", "Me haces muy feliz 😊", "Te quiero infinito",
-            "Mi reina 👑", "No te cambio por nada", "Besitos para ti 💋",
-            "Eres mi sol ☀️", "Eres magia ✨", "Tú y yo por siempre",
-            "Me encantas demasiado", "Mi todo 💖"
-        ];
+    const isSmallPhone = window.innerWidth <= 420;
+    const isTabletOrMobile = window.innerWidth <= 768;
 
-        // Crear nubes en el suelo para que se vea como la imagen
-        function createBottomDecor() {
-            for(let i=0; i<15; i++) {
-                const bCloud = document.createElement('div');
-                bCloud.className = 'bottom-cloud';
-                const size = 150 + Math.random() * 200;
-                bCloud.style.width = size + 'px';
-                bCloud.style.height = size + 'px';
-                bCloud.style.left = (i * 8) + 'vw';
-                sky.appendChild(bCloud);
-            }
-        }
+    let activeMessages = 0;
+    let activeHearts = 0;
+    let activeClouds = 0;
 
-        // Crear nubes que flotan
-        function createCloud() {
-            const cloud = document.createElement('div');
-            cloud.className = 'cloud';
-            const w = 150 + Math.random() * 150;
-            cloud.style.width = w + 'px';
-            cloud.style.height = (w/3) + 'px';
-            cloud.style.top = Math.random() * 70 + 'vh';
-            cloud.style.animationDuration = (20 + Math.random() * 30) + 's';
-            cloud.style.opacity = 0.5 + Math.random() * 0.4;
-            sky.appendChild(cloud);
-            setTimeout(() => cloud.remove(), 50000);
-        }
+    const limits = {
+      messages: isSmallPhone ? 14 : isTabletOrMobile ? 18 : 24,
+      hearts: isSmallPhone ? 18 : isTabletOrMobile ? 28 : 40,
+      clouds: isSmallPhone ? 4 : 6
+    };
 
-        // Crear mensajes (Intervalo rápido para llenar la pantalla)
-        function createMessage() {
-            const msg = document.createElement('div');
-            msg.className = 'message';
-            msg.innerText = phrases[Math.floor(Math.random() * phrases.length)];
-            
-            // Posiciones aleatorias por toda la pantalla
-            msg.style.left = Math.random() * 75 + 5 + 'vw';
-            msg.style.top = Math.random() * 75 + 5 + 'vh';
-            
-            sky.appendChild(msg);
-            setTimeout(() => msg.remove(), 6000);
-        }
+    function rand(min, max) {
+      return Math.random() * (max - min) + min;
+    }
 
-        // Crear corazones
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.className = 'heart';
-            heart.innerHTML = '❤️';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.fontSize = (15 + Math.random() * 20) + 'px';
-            sky.appendChild(heart);
-            setTimeout(() => heart.remove(), 5000);
-        }
+    function createBottomDecor() {
+      const amount = isSmallPhone ? 7 : isTabletOrMobile ? 9 : 13;
 
-        // Ejecución
-        createBottomDecor();
-        
-        // Generar elementos constantemente
-        setInterval(createMessage, 600); // Un mensaje nuevo cada medio segundo
-        setInterval(createHeart, 400);   // Corazones frecuentes
-        setInterval(createCloud, 5000);  // Nubes ocasionales
+      for (let i = 0; i < amount; i++) {
+        const bCloud = document.createElement("div");
+        bCloud.className = "bottom-cloud";
 
-        // Empezar con algunos mensajes ya en pantalla
-        for(let i=0; i<8; i++) {
-            setTimeout(createMessage, i * 200);
-            createCloud();
-        }
+        const size = isSmallPhone
+          ? rand(110, 170)
+          : isTabletOrMobile
+          ? rand(140, 220)
+          : rand(180, 280);
 
-    </script>
+        bCloud.style.width = `${size}px`;
+        bCloud.style.height = `${size}px`;
+        bCloud.style.left = `${(i * 100) / amount - 5}%`;
+
+        sky.appendChild(bCloud);
+      }
+    }
+
+    function createCloud() {
+      if (activeClouds >= limits.clouds) return;
+
+      activeClouds++;
+
+      const cloud = document.createElement("div");
+      cloud.className = "cloud";
+
+      const width = isSmallPhone
+        ? rand(70, 120)
+        : isTabletOrMobile
+        ? rand(90, 150)
+        : rand(120, 220);
+
+      const height = width * 0.34;
+      const duration = rand(20, 38);
+
+      cloud.style.width = `${width}px`;
+      cloud.style.height = `${height}px`;
+      cloud.style.top = `${rand(3, 68)}vh`;
+      cloud.style.opacity = rand(0.45, 0.9);
+      cloud.style.animationDuration = `${duration}s`;
+
+      sky.appendChild(cloud);
+
+      setTimeout(() => {
+        cloud.remove();
+        activeClouds--;
+      }, duration * 1000);
+    }
+
+    function createMessage() {
+      if (activeMessages >= limits.messages) return;
+
+      activeMessages++;
+
+      const msg = document.createElement("div");
+      msg.className = "message";
+      msg.textContent = phrases[Math.floor(Math.random() * phrases.length)];
+
+      const duration = rand(5.5, 8);
+      msg.style.setProperty("--duration", `${duration}s`);
+
+      sky.appendChild(msg);
+
+      const rect = msg.getBoundingClientRect();
+      const padding = 8;
+      const maxLeft = Math.max(padding, window.innerWidth - rect.width - padding);
+      const maxTop = Math.max(padding, window.innerHeight - rect.height - 70);
+
+      const left = rand(padding, maxLeft);
+      const top = rand(padding, maxTop * 0.85);
+
+      msg.style.left = `${left}px`;
+      msg.style.top = `${top}px`;
+
+      setTimeout(() => {
+        msg.remove();
+        activeMessages--;
+      }, duration * 1000);
+    }
+
+    function createHeart() {
+      if (activeHearts >= limits.hearts) return;
+
+      activeHearts++;
+
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.innerHTML = "❤️";
+
+      const size = isSmallPhone
+        ? rand(12, 20)
+        : isTabletOrMobile
+        ? rand(14, 24)
+        : rand(16, 28);
+
+      const duration = rand(4.5, 6.5);
+
+      heart.style.left = `${rand(0, 100)}vw`;
+      heart.style.fontSize = `${size}px`;
+      heart.style.animationDuration = `${duration}s`;
+
+      sky.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+        activeHearts--;
+      }, duration * 1000);
+    }
+
+    function startScene() {
+      createBottomDecor();
+
+      const initialMessages = isSmallPhone ? 7 : 10;
+      const initialClouds = isSmallPhone ? 2 : 4;
+
+      for (let i = 0; i < initialClouds; i++) {
+        setTimeout(createCloud, i * 600);
+      }
+
+      for (let i = 0; i < initialMessages; i++) {
+        setTimeout(createMessage, i * 180);
+      }
+
+      setInterval(createMessage, isSmallPhone ? 450 : isTabletOrMobile ? 350 : 280);
+      setInterval(createHeart, isSmallPhone ? 650 : 480);
+      setInterval(createCloud, 4500);
+    }
+
+    startScene();
+  </script>
 </body>
 </html>
