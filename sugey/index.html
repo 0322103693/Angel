@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Para mi amor 💖</title>
 
   <style>
@@ -12,13 +12,14 @@
       --bg1: #ffe5ec;
       --bg2: #ffc2d1;
       --text: #ff4d6d;
-      --heart: #ff758f;
-      --white: rgba(255, 255, 255, 0.95);
-      --message-max-width: min(80vw, 320px);
+      --heart: #ff8fab;
+      --bubble: rgba(255, 255, 255, 0.96);
+      --shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
     }
 
     * {
       box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
     }
 
     html, body {
@@ -36,18 +37,21 @@
     #sky {
       position: relative;
       width: 100%;
-      height: 100%;
+      height: 100dvh;
       overflow: hidden;
+      isolation: isolate;
     }
 
-    /* Nubes */
+    /* NUBES BONITAS FLOTANDO */
     .cloud {
       position: absolute;
-      background: rgba(255, 255, 255, 0.95);
+      left: -220px;
+      background: rgba(255,255,255,0.9);
       border-radius: 999px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.04);
       z-index: 1;
-      animation: moveCloud linear forwards;
+      animation: floatCloud linear forwards;
+      will-change: transform;
     }
 
     .cloud::before,
@@ -60,63 +64,56 @@
 
     .cloud::before {
       width: 42%;
-      height: 120%;
-      left: 12%;
-      top: -55%;
+      height: 135%;
+      left: 14%;
+      top: -58%;
     }
 
     .cloud::after {
       width: 34%;
-      height: 100%;
+      height: 105%;
       right: 14%;
       top: -38%;
     }
 
-    @keyframes moveCloud {
-      from { transform: translateX(-35vw); }
-      to { transform: translateX(135vw); }
+    @keyframes floatCloud {
+      from {
+        transform: translateX(0);
+      }
+      to {
+        transform: translateX(calc(100vw + 280px));
+      }
     }
 
-    /* Suelo */
-    .bottom-cloud {
-      position: absolute;
-      bottom: -8vh;
-      background: rgba(255,255,255,0.92);
-      border-radius: 50%;
-      filter: blur(10px);
-      z-index: 4;
-      pointer-events: none;
-    }
-
-    /* Mensajes */
+    /* MENSAJES */
     .message {
       position: absolute;
       z-index: 10;
-      background: var(--white);
+      background: var(--bubble);
       color: var(--text);
-      padding: 0.65rem 1rem;
-      border-radius: 24px;
-      box-shadow: 0 10px 24px rgba(0,0,0,0.08);
-      font-size: clamp(11px, 2.2vw, 18px);
+      padding: 10px 16px;
+      border-radius: 999px;
+      box-shadow: var(--shadow);
       font-weight: 700;
-      line-height: 1.25;
-      min-width: 90px;
-      max-width: var(--message-max-width);
+      font-size: clamp(12px, 3.5vw, 20px);
+      line-height: 1.2;
       text-align: center;
+      max-width: min(78vw, 310px);
       white-space: normal;
       word-break: break-word;
       overflow-wrap: break-word;
       pointer-events: none;
-      animation: popAndFade var(--duration, 6s) ease-in-out forwards;
+      animation: popFade var(--duration, 6.5s) ease-in-out forwards;
       opacity: 0;
+      will-change: transform, opacity;
     }
 
-    @keyframes popAndFade {
+    @keyframes popFade {
       0% {
-        transform: scale(0.6) translateY(20px);
+        transform: scale(0.7) translateY(20px);
         opacity: 0;
       }
-      15% {
+      12% {
         transform: scale(1.05) translateY(0);
         opacity: 1;
       }
@@ -124,54 +121,63 @@
         transform: scale(1);
         opacity: 1;
       }
-      80% {
+      82% {
         transform: scale(1) translateY(-8px);
         opacity: 1;
       }
       100% {
-        transform: scale(0.88) translateY(-30px);
+        transform: scale(0.9) translateY(-28px);
         opacity: 0;
       }
     }
 
-    /* Corazones */
+    /* CORAZONES */
     .heart {
       position: absolute;
       z-index: 2;
-      color: var(--heart);
       pointer-events: none;
+      color: var(--heart);
+      opacity: 0;
       animation: floatHeart linear forwards;
-      filter: drop-shadow(0 4px 8px rgba(255, 77, 109, 0.15));
+      filter: drop-shadow(0 4px 8px rgba(255, 105, 135, 0.18));
+      will-change: transform, opacity;
     }
 
     @keyframes floatHeart {
       0% {
-        transform: translateY(110vh) scale(0.5) rotate(0deg);
+        transform: translateY(110dvh) scale(0.6) rotate(0deg);
         opacity: 0;
       }
-      15% { opacity: 0.75; }
+      15% {
+        opacity: 0.75;
+      }
       100% {
-        transform: translateY(-15vh) scale(1.35) rotate(18deg);
+        transform: translateY(-15dvh) scale(1.3) rotate(16deg);
         opacity: 0;
       }
     }
 
+    /* MOVIL */
     @media (max-width: 768px) {
-      :root {
-        --message-max-width: min(84vw, 260px);
-      }
-
       .message {
-        border-radius: 20px;
-        padding: 0.6rem 0.9rem;
+        max-width: 76vw;
+        padding: 9px 14px;
+        font-size: clamp(12px, 4vw, 17px);
       }
     }
 
     @media (max-width: 420px) {
       .message {
-        font-size: clamp(10px, 3.4vw, 14px);
-        border-radius: 18px;
-        padding: 0.55rem 0.8rem;
+        max-width: 74vw;
+        padding: 8px 13px;
+        font-size: clamp(11px, 4.2vw, 15px);
+      }
+    }
+
+    @media (max-height: 500px) and (orientation: landscape) {
+      .message {
+        max-width: 40vw;
+        font-size: 12px;
       }
     }
   </style>
@@ -184,8 +190,9 @@
 
     const phrases = [
       "Te amo muchísimo 💖",
-      "Eres mi lugar feliz ✨",
+      "Eres mi lugar favorito",
       "Mi niña hermosa 🌸",
+      "Eres mi vida ✨",
       "Siempre contigo 💍",
       "Gracias por existir 💕",
       "Eres mi mundo 🌎",
@@ -202,7 +209,7 @@
       "No te cambio por nada",
       "Besitos para ti 💋",
       "Eres mi sol ☀️",
-      "Eres magia pura ✨",
+      "Eres magia ✨",
       "Tú y yo por siempre",
       "Me encantas demasiado",
       "Mi todo 💖",
@@ -214,86 +221,53 @@
       "Me haces sonreír siempre",
       "Mi persona favorita",
       "Eres mi paz 🤍",
-      "Te amo hasta el infinito",
       "Mi corazón late por ti",
-      "Eres mi casualidad favorita",
-      "Qué bonito es amarte",
       "Siempre te escogería a ti",
-      "Eres mi más bonito destino",
-      "Mi amorcito lindo",
-      "Tú haces mi vida más bonita",
-      "Eres mi alegría de todos los días",
-      "Mi niña consentida 🧸",
+      "Qué bonito es amarte",
       "Eres un regalo en mi vida",
-      "Mi amor por ti no tiene fin",
       "Te amo con toda mi alma",
-      "Eres mi felicidad diaria",
-      "Lo más bonito que tengo eres tú",
-      "Eres mi estrella favorita ⭐",
-      "Mi corazón sonríe por ti",
       "A tu lado todo es mejor",
       "Eres mi razón favorita"
     ];
 
     const isSmallPhone = window.innerWidth <= 420;
-    const isTabletOrMobile = window.innerWidth <= 768;
+    const isMobile = window.innerWidth <= 768;
 
     let activeMessages = 0;
     let activeHearts = 0;
     let activeClouds = 0;
 
     const limits = {
-      messages: isSmallPhone ? 14 : isTabletOrMobile ? 18 : 24,
-      hearts: isSmallPhone ? 18 : isTabletOrMobile ? 28 : 40,
-      clouds: isSmallPhone ? 4 : 6
+      messages: isSmallPhone ? 10 : isMobile ? 13 : 18,
+      hearts: isSmallPhone ? 14 : isMobile ? 18 : 26,
+      clouds: isSmallPhone ? 6 : isMobile ? 8 : 10
     };
 
     function rand(min, max) {
       return Math.random() * (max - min) + min;
     }
 
-    function createBottomDecor() {
-      const amount = isSmallPhone ? 7 : isTabletOrMobile ? 9 : 13;
-
-      for (let i = 0; i < amount; i++) {
-        const bCloud = document.createElement("div");
-        bCloud.className = "bottom-cloud";
-
-        const size = isSmallPhone
-          ? rand(110, 170)
-          : isTabletOrMobile
-          ? rand(140, 220)
-          : rand(180, 280);
-
-        bCloud.style.width = `${size}px`;
-        bCloud.style.height = `${size}px`;
-        bCloud.style.left = `${(i * 100) / amount - 5}%`;
-
-        sky.appendChild(bCloud);
-      }
-    }
-
     function createCloud() {
       if (activeClouds >= limits.clouds) return;
-
       activeClouds++;
 
       const cloud = document.createElement("div");
       cloud.className = "cloud";
 
       const width = isSmallPhone
-        ? rand(70, 120)
-        : isTabletOrMobile
-        ? rand(90, 150)
+        ? rand(70, 130)
+        : isMobile
+        ? rand(90, 160)
         : rand(120, 220);
 
       const height = width * 0.34;
-      const duration = rand(20, 38);
+      const top = rand(2, 84);
+      const duration = rand(16, 30);
 
       cloud.style.width = `${width}px`;
       cloud.style.height = `${height}px`;
-      cloud.style.top = `${rand(3, 68)}vh`;
-      cloud.style.opacity = rand(0.45, 0.9);
+      cloud.style.top = `${top}%`;
+      cloud.style.opacity = rand(0.45, 0.92);
       cloud.style.animationDuration = `${duration}s`;
 
       sky.appendChild(cloud);
@@ -306,51 +280,40 @@
 
     function createMessage() {
       if (activeMessages >= limits.messages) return;
-
       activeMessages++;
 
       const msg = document.createElement("div");
       msg.className = "message";
       msg.textContent = phrases[Math.floor(Math.random() * phrases.length)];
-
-      const duration = rand(5.5, 8);
-      msg.style.setProperty("--duration", `${duration}s`);
+      msg.style.setProperty("--duration", `${rand(5.5, 7.8)}s`);
 
       sky.appendChild(msg);
 
       const rect = msg.getBoundingClientRect();
-      const padding = 8;
-      const maxLeft = Math.max(padding, window.innerWidth - rect.width - padding);
-      const maxTop = Math.max(padding, window.innerHeight - rect.height - 70);
+      const margin = 10;
 
-      const left = rand(padding, maxLeft);
-      const top = rand(padding, maxTop * 0.85);
+      const maxLeft = Math.max(margin, window.innerWidth - rect.width - margin);
+      const maxTop = Math.max(margin, window.innerHeight - rect.height - margin);
 
-      msg.style.left = `${left}px`;
-      msg.style.top = `${top}px`;
+      msg.style.left = `${rand(margin, maxLeft)}px`;
+      msg.style.top = `${rand(margin, maxTop)}px`;
 
       setTimeout(() => {
         msg.remove();
         activeMessages--;
-      }, duration * 1000);
+      }, 7800);
     }
 
     function createHeart() {
       if (activeHearts >= limits.hearts) return;
-
       activeHearts++;
 
       const heart = document.createElement("div");
       heart.className = "heart";
-      heart.innerHTML = "❤️";
-
-      const size = isSmallPhone
-        ? rand(12, 20)
-        : isTabletOrMobile
-        ? rand(14, 24)
-        : rand(16, 28);
+      heart.innerHTML = "💗";
 
       const duration = rand(4.5, 6.5);
+      const size = isSmallPhone ? rand(14, 22) : rand(16, 28);
 
       heart.style.left = `${rand(0, 100)}vw`;
       heart.style.fontSize = `${size}px`;
@@ -365,22 +328,20 @@
     }
 
     function startScene() {
-      createBottomDecor();
-
-      const initialMessages = isSmallPhone ? 7 : 10;
-      const initialClouds = isSmallPhone ? 2 : 4;
+      const initialClouds = isSmallPhone ? 4 : 6;
+      const initialMessages = isSmallPhone ? 6 : 8;
 
       for (let i = 0; i < initialClouds; i++) {
-        setTimeout(createCloud, i * 600);
+        setTimeout(createCloud, i * 500);
       }
 
       for (let i = 0; i < initialMessages; i++) {
         setTimeout(createMessage, i * 180);
       }
 
-      setInterval(createMessage, isSmallPhone ? 450 : isTabletOrMobile ? 350 : 280);
-      setInterval(createHeart, isSmallPhone ? 650 : 480);
-      setInterval(createCloud, 4500);
+      setInterval(createCloud, isSmallPhone ? 1800 : 1500);
+      setInterval(createMessage, isSmallPhone ? 650 : isMobile ? 520 : 420);
+      setInterval(createHeart, isSmallPhone ? 700 : 550);
     }
 
     startScene();
